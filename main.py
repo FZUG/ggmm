@@ -52,4 +52,10 @@ def make_eml(to, cc, subject, welcome_message, log):
     pass
 
 if __name__ == '__main__':
-    pass
+    user_input = get_user_input()
+    #urls: description -> url
+    urls = dict()
+    for uinpt in user_input:
+        url = get_url(uinpt)
+        urls[ url[0] ] = url[1]
+
