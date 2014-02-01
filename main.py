@@ -45,11 +45,8 @@ def get_url(s):
     ("abc", "http://server.org/log.html") 的 tuple
     '''
     trace("get_url() from : " + s)
-    pattern = re.compile(r"""
-        ^<\w+bot>           #like '<xxxbot>'
-        \s*                 #no blank
-        [\w | \(|\) ]+:     #like 'Minutes (test):'
-        \s*                 #no blank""")
+    bot_pattern = re.compile('^<\w+bot>')
+
     #answer from http://stackoverflow.com/a/6883094
     link_pattern = re.compile(\
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -59,6 +56,14 @@ def get_url(s):
         trace(url)
     else:
         sys.exit("Url Match Error!")
+
+    match = re.search(bot_pattern, s)
+    if match:
+        bot = match.group(0)
+        trace(bot)
+    else:
+        sys.exit("Url Match Error!")
+
 
     return (1, 2)
 
