@@ -22,6 +22,7 @@
 import re
 import email
 import sys
+import urllib
 
 ENABLE_TRACE = True
 
@@ -78,6 +79,7 @@ def get_url(s):
 def fetch_data(url):
     '''该函数内不做多线程，就是用对应的库抓取信息
     '''
+    req = urllib.request.urlopen(url)
 
 def make_eml(to, cc, subject, welcome_message, log):
     '''to: string
