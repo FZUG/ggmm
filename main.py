@@ -20,6 +20,7 @@
 #  2. 仅保证 python3 能运行该程序
 
 import re, email
+import sys
 
 ENABLE_TRACE = True
 
@@ -47,15 +48,16 @@ def get_url(s):
         ^<\w+bot>           #like '<xxxbot>'
         \s*                 #no blank
         [\w | \(|\) ]+:     #like 'Minutes (test):'
-        \s*                 #no blank
-        http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+
-        #answer from http://stackoverflow.com/a/6883094
-        """, re.X)
-    match = pattern.match(s)
+        \s*                 #no blank""")
+    #answer from http://stackoverflow.com/a/6883094
+    link_pattern = re.compile(\
+        'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+    match = re.search(link_pattern, s)
     if match:
-        print(match.group())
+        url = match.group(0)
+        trace(url)
     else:
-        print("match failed!")
+        sys.exit("Url Match Error!")
 
     return (1, 2)
 
