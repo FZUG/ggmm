@@ -21,6 +21,12 @@
 
 import re, email
 
+ENABLE_TRACE = True
+
+def trace(s):
+    if ENABLE_TRACE:
+        print(s)
+
 def get_user_input(gui=False):
     '''获取用户的输入，未来可能支持 gui
     返回一个 tuple，里面有三个不带换行符的字符串
