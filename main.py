@@ -48,9 +48,8 @@ def get_url(s):
         \s*                 #no blank
         [\w | \(|\) ]+:     #like 'Minutes (test):'
         \s*                 #no blank
-        http://             #
-        [\w | \. | /]+      #link
-        [html | txt]$       #end
+        http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+
+        #answer from http://stackoverflow.com/a/6883094
         """, re.X)
     match = pattern.match(s)
     if match:
