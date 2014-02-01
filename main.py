@@ -33,5 +33,14 @@ def fetch_data(url):
     返回一个 tuple
     '''
 
+def make_eml(to, cc, subject, welcome_message, log):
+    '''to: string
+    cc: list/tuple of strings
+    subject: string (without date)
+    welcome_message: string
+    log: FIXME I'm not sure yet
+    '''
+    pass
+
 if __name__ == '__main__':
     pass
