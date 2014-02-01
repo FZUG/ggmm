@@ -50,7 +50,8 @@ def get_url(s):
         \s*                 #no blank
         http://             #
         [\w | \. | /]+      #link
-        [html | txt]$       #end""", re.X)
+        [html | txt]$       #end
+        """, re.X)
     match = pattern.match(s)
     if match:
         print(match.group())
