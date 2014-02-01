@@ -51,11 +51,11 @@ def get_url(s):
     link_pattern = re.compile(\
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
     match = re.search(link_pattern, s)
-    if match:
-        url = match.group(0)
-        trace(url)
-    else:
+    if not match:
         sys.exit("Url Match Error!")
+
+    url = match.group(0)
+    trace(url)
 
     match = re.search(bot_pattern, s)
     if match:
