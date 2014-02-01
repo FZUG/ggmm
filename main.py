@@ -42,6 +42,7 @@ def get_url(s):
     '''把形如 "<xxxbot>:abc http://server.org/log.html" 的字符串处理成
     ("abc", "http://server.org/log.html") 的 tuple
     '''
+    trace("get_url() from : " + s)
     pattern = re.compile(r"""
         ^<\w+bot>           #like '<xxxbot>'
         \s*                 #no blank
