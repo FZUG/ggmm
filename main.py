@@ -19,7 +19,8 @@
 #  1. 所有编码都是 UTF-8
 #  2. 仅保证 python3 能运行该程序
 
-import re, email
+import re
+import email
 import sys
 
 ENABLE_TRACE = True
