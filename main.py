@@ -56,17 +56,22 @@ def get_url(s):
 
     url = match.group(0)
     trace(url)
+    s = s.replace(url, "")
 
     match = re.search(bot_pattern, s)
-    if match:
-        bot = match.group(0)
-        trace(bot)
-    else:
+    if not match:
         sys.exit("Url Match Error!")
 
+    bot = match.group(0)
+    trace("bot name: "bot)
+    s = s.replace(bot, "")
 
-    return (1, 2)
-
+    s = s.strip()
+    s = s.rstrip(':')
+    s = s.strip()
+    
+    trace("Description: " + s)
+    return (s, url)
 
 
 
