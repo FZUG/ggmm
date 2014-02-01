@@ -64,7 +64,7 @@ def get_url(s):
         sys.exit("Url Match Error!")
 
     bot = match.group(0)
-    trace("bot name: "bot)
+    trace("bot name: " + bot)
     s = s.replace(bot, "")
 
     s = s.strip()
