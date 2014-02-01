@@ -36,7 +36,24 @@ def get_url(s):
     '''把形如 "<xxxbot>:abc http://server.org/log.html" 的字符串处理成
     ("abc", "http://server.org/log.html") 的 tuple
     '''
-    pass
+    pattern = re.compile(r"""
+        ^<\w+bot>           #like '<xxxbot>'
+        \s*                 #no blank
+        [\w | \(|\) ]+:     #like 'Minutes (test):'
+        \s*                 #no blank
+        http://             #
+        [\w | \. | /]+      #link
+        [html | txt]$       #end""", re.X)
+    match = pattern.match(s)
+    if match:
+        print(match.group())
+    else:
+        print("match failed!")
+
+    return (1, 2)
+
+
+
 
 def fetch_data(url):
     '''该函数内不做多线程，就是用对应的库抓取信息
