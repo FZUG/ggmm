@@ -25,7 +25,12 @@ def get_user_input(gui=False):
     '''获取用户的输入，未来可能支持 gui
     返回一个 tuple，里面有三个不带换行符的字符串
     '''
-    pass
+#Dirty test
+    print("get_user_input STUB!")
+    return ("<zodbot> Minutes: http://meetbot.fedoraproject.org/fedora-zh/2014-01-31/fedora-zh.2014-01-31-13.02.html",\
+            "<zodbot> Minutes (text): http://meetbot.fedoraproject.org/fedora-zh/2014-01-31/fedora-zh.2014-01-31-13.02.txt", \
+            "<zodbot> Log: http://meetbot.fedoraproject.org/fedora-zh/2014-01-31/fedora-zh.2014-01-31-13.02.log.html")
+
 
 def get_url(s):
     '''把形如 "<xxxbot>:abc http://server.org/log.html" 的字符串处理成
