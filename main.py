@@ -22,5 +22,11 @@ def get_user_input(gui=False):
     '''
     pass
 
+def get_url(s):
+    '''把形如 "<xxxbot>:abc http://server.org/log.html" 的字符串处理成
+    ("abc", "http://server.org/log.html") 的 tuple
+    '''
+    pass
+
 if __name__ == '__main__':
     pass
