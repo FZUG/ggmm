@@ -104,3 +104,6 @@ if __name__ == '__main__':
         url = get_url(uinpt)
         urls[ url[0] ] = url[1]
 
+    print("Fetching data from server......")
+    log = fetch_data(urls['Minutes (text)'])
+
