@@ -138,8 +138,7 @@ if __name__ == '__main__':
 
 
     print("Fetching data from server......")
-    #log = fetch_data(urls['Minutes (text)'])
-    log=["a", "b","c", "你好", "用fedora的朋友"]
+    log = fetch_data(urls['Minutes (text)'])
     log = link_str + ["",""] + log
 
     eml = make_eml(TO, CC, SUBJECT, GREETING, log)
