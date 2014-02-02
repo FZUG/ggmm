@@ -30,6 +30,8 @@ everyone for attending the meeting."""
 
 import re
 import email
+import email.mime.text
+import datetime
 import sys
 import urllib.request
 
@@ -103,9 +105,22 @@ def make_eml(to, cc, subject, message, log):
     subject: string (without date)
     message: string
     log: list of strings
-    return: list of strings
+    return: a string
     '''
-    pass
+    msg = email.message.Message()
+    msg.add_header('To', to)
+    cc = ','.join(cc)
+    msg.add_header('Cc', cc)
+
+    now = str(datetime.date.today())
+    trace(now)
+    subject += " (" + now + ")"
+    msg.add_header('Subject', subject)
+
+    content = message + '\n' + '\n'.join(log)
+    trace(content)
+    msg.set_payload(content, "utf-8")
+    return msg.as_string()
 
 if __name__ == '__main__':
     user_input = get_user_input()
@@ -116,7 +131,11 @@ if __name__ == '__main__':
         urls[ url[0] ] = url[1]
 
     print("Fetching data from server......")
-    log = fetch_data(urls['Minutes (text)'])
+    #log = fetch_data(urls['Minutes (text)'])
+    log=["a", "b","c", "你好", "用fedora的朋友"]
 
     eml = make_eml(TO, CC, SUBJECT, GREETING, log)
+    file = open('irc_meeting_log.eml', 'w')
+    file.write(eml)
+    file.close()
 
