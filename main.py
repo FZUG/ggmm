@@ -141,4 +141,5 @@ if __name__ == '__main__':
     file = open('irc_meeting_log.eml', 'w')
     file.write(eml)
     file.close()
+    print("Finished!")
 
