@@ -132,10 +132,15 @@ if __name__ == '__main__':
     for uinpt in user_input:
         url = get_url(uinpt)
         urls[ url[0] ] = url[1]
+    link_str = []
+    for key, value in urls.items():
+        link_str.append(key + ": " + value)
+
 
     print("Fetching data from server......")
     #log = fetch_data(urls['Minutes (text)'])
     log=["a", "b","c", "你好", "用fedora的朋友"]
+    log = link_str + ["",""] + log
 
     eml = make_eml(TO, CC, SUBJECT, GREETING, log)
     file = open('irc_meeting_log.eml', 'w')
