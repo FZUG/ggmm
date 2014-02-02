@@ -36,7 +36,7 @@ import sys
 import urllib.request
 
 #debug config
-ENABLE_TRACE = True
+ENABLE_TRACE = False
 
 def trace(s):
     if ENABLE_TRACE:
