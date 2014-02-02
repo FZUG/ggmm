@@ -87,7 +87,6 @@ def get_url(s):
     return (s, url)
 
 
-
 def fetch_data(url):
     '''该函数内不做多线程，就是用对应的库抓取信息
     返回一个列表，是解码后的字符串
