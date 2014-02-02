@@ -19,11 +19,21 @@
 #  1. 所有编码都是 UTF-8
 #  2. 仅保证 python3 能运行该程序
 
+#config
+TO="chinese@lists.fedoraproject.org"
+CC=("meetingminutes@lists.fedoraproject.org", )
+SUBJECT="Fedora Chinese Meeting Minutes"
+GREETING="""Hi all,
+
+The IRC meeting minutes yesterday are available at the links below. Thanks
+everyone for attending the meeting."""
+
 import re
 import email
 import sys
 import urllib.request
 
+#debug config
 ENABLE_TRACE = True
 
 def trace(s):
@@ -87,12 +97,13 @@ def fetch_data(url):
     trace(strs)
     return strs
 
-def make_eml(to, cc, subject, welcome_message, log):
+def make_eml(to, cc, subject, message, log):
     '''to: string
     cc: list/tuple of strings
     subject: string (without date)
-    welcome_message: string
-    log: FIXME I'm not sure yet
+    message: string
+    log: list of strings
+    return: list of strings
     '''
     pass
 
@@ -106,4 +117,6 @@ if __name__ == '__main__':
 
     print("Fetching data from server......")
     log = fetch_data(urls['Minutes (text)'])
+
+    eml = make_eml(TO, CC, SUBJECT, GREETING, log)
 
