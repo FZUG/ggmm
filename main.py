@@ -42,15 +42,19 @@ def trace(s):
     if ENABLE_TRACE:
         print(s)
 
-def get_user_input(gui=False):
+def get_user_input(gui=False, file='link'):
     '''获取用户的输入，未来可能支持 gui
     返回一个 tuple，里面有三个不带换行符的字符串
     '''
-#Dirty test
-    print("get_user_input STUB!")
-    return ("<zodbot> Minutes: http://meetbot.fedoraproject.org/fedora-zh/2014-01-31/fedora-zh.2014-01-31-13.02.html",\
-            "<zodbot> Minutes (text): http://meetbot.fedoraproject.org/fedora-zh/2014-01-31/fedora-zh.2014-01-31-13.02.txt", \
-            "<zodbot> Log: http://meetbot.fedoraproject.org/fedora-zh/2014-01-31/fedora-zh.2014-01-31-13.02.log.html")
+    if gui:
+        print("GUI stub")
+    else:
+        fin = open(file, "r")
+        result = fin.readlines()
+        fin.close()
+
+    trace(result)
+    return result
 
 
 def get_url(s):
