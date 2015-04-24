@@ -57,6 +57,7 @@ import urllib.request
 
 #debug config
 ENABLE_TRACE = False
+WORKING_FINE = True
 
 def trace(s):
     if ENABLE_TRACE:
@@ -86,18 +87,30 @@ def get_user_input(gui=False):
 
 
 def get_url(s):
-    '''把形如 "<xxxbot>:abc http://server.org/log.html" 的字符串处理成
+    '''把从 IRC 客户端复制出的字符串处理成
     ("abc", "http://server.org/log.html") 的 tuple
+    Input example:
+        <zodbot>:abc http://server.org/log.html
+        (10:11:58 PM) zodbot: Minutes: http://meetbot.fedoraproject.org/fedora-zh/2015-04-10/fedora-zh.2015-04-10-13.04.html
     '''
     trace("get_url() from : " + s)
-    bot_pattern = re.compile('^<\w+bot>')
+    bot_pattern = re.compile(r"""^\(?    # Left parenthesis
+            # Some client will show the time
+            (
+            \d{2,4}:\d{2,4} \s*     # Hour and minute
+            (:\d{2}\s*[AP]M\))?     # (10:11:58 PM)
+            \)?                     # Right parenthesis
+            )?\s*                   # Not neccesary to show the time
+            <?\+?zodbot>?\s*\:?\s*  # zodbot
+            """, re.X)
 
     #answer from http://stackoverflow.com/a/6883094
     link_pattern = re.compile(\
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
     match = re.search(link_pattern, s)
     if not match:
-        sys.exit("Url Match Error!")
+        print("Url Match Error!")
+        WORKING_FINE = False
 
     url = match.group(0)
     trace(url)
@@ -105,7 +118,8 @@ def get_url(s):
 
     match = re.search(bot_pattern, s)
     if not match:
-        sys.exit("Url Match Error!")
+        print("Can't find bot!")
+        WORKING_FINE = False
 
     bot = match.group(0)
     trace("bot name: " + bot)
@@ -114,7 +128,7 @@ def get_url(s):
     s = s.strip()
     s = s.rstrip(':')
     s = s.strip()
-    
+
     trace("Description: " + s)
     return (s, url)
 
@@ -174,4 +188,7 @@ if __name__ == '__main__':
     file.write(eml)
     file.close()
     print("Finished!")
+    if not WORKING_FINE:
+        print("Warning! Something might be wrong!")
+        print("Please re-check the mail before sending it")
 
