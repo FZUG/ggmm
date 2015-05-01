@@ -41,7 +41,7 @@ THE SOFTWARE."""
 
 #config
 TO="chinese@lists.fedoraproject.org"
-CC=("meetingminutes@lists.fedoraproject.org", )
+CC=()
 SUBJECT="Fedora Chinese Meeting Minutes"
 GREETING="""Hi all,
 
@@ -154,8 +154,9 @@ def make_eml(to, cc, subject, message, log):
     '''
     msg = email.message.Message()
     msg.add_header('To', to)
-    cc = ','.join(cc)
-    msg.add_header('Cc', cc)
+    if cc:
+        cc = ','.join(cc)
+        msg.add_header('Cc', cc)
 
     now = str(datetime.date.today())
     trace(now)
