@@ -47,7 +47,8 @@ SUBJECT="Fedora Chinese Meeting Minutes"
 GREETING="""Hi all,
 
 The IRC meeting minutes yesterday are available at the links below. Thanks
-everyone for attending the meeting."""
+everyone for attending the meeting.
+"""
 
 import re
 import email
