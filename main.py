@@ -152,6 +152,7 @@ def make_eml(to, cc, subject, message, log):
     log: list of strings
     return: a string
     '''
+    email.charset.add_charset('utf-8', None, None, 'utf-8')
     msg = email.message.Message()
     msg.add_header('To', to)
     cc = ','.join(cc)
