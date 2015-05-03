@@ -55,6 +55,8 @@ import email.mime.text
 import datetime
 import sys
 import urllib.request
+import subprocess
+import argparse
 
 #debug config
 ENABLE_TRACE = False
@@ -69,8 +71,14 @@ def get_user_input(gui=False):
     返回一个 tuple，里面有三个不带换行符的字符串
     '''
     result = []
+    input_tip = "请输入结束会议时 bot 的三行会议纪要链接提示："
     if gui:
-        print("GUI stub")
+        output = subprocess.check_output(["zenity", "--text-info", "--editable",
+            "--width", "600", "--height", "200", "--title", input_tip],
+            universal_newlines=True)
+        trace(output)
+        if output:
+            result = output.splitlines()
     else:
         try:
             while(True):
@@ -171,7 +179,13 @@ def make_eml(to, cc, subject, message, log):
     return msg.as_string()
 
 if __name__ == '__main__':
-    user_input = get_user_input()
+    parser = argparse.ArgumentParser(description='GGMM: GGMM Generates Minutes Mail.')
+    parser.add_argument('--gui', dest='gui', action='store_true',
+        default=False, help='enable GUI mode (default: disabled)')
+
+    args = parser.parse_args()
+
+    user_input = get_user_input(args.gui)
     #urls: description -> url
     urls = dict()
     for uinpt in user_input:
