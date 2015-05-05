@@ -1,0 +1,13 @@
+#!/bin/sh
+
+PACKAGE=ggmm
+DEFAULT_VERSION=v1.0
+
+VERSION="$(git describe --tags 2>/dev/null)"
+
+if [ -z "$VERSION" ]; then
+    VERSION="$DEFAULT_VERSION"
+fi
+
+sed "s/VERSION/$VERSION/g" main.py > $PACKAGE
+chmod 755 $PACKAGE
