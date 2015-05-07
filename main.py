@@ -70,7 +70,7 @@ def trace(s):
 
 def get_user_input(gui=False):
     '''获取用户的输入，未来可能支持 gui
-    返回一个 tuple，里面有三个不带换行符的字符串
+    返回一个 list，里面有三个不带换行符的字符串
     '''
     result = []
     input_tip = "请输入结束会议时 bot 的三行会议纪要链接提示："
@@ -85,14 +85,11 @@ def get_user_input(gui=False):
         try:
             while(True):
                 get = input()
-                result.append(get)
-        except KeyboardInterrupt:
-            pass
+                if get:
+                    result.append(get)
         except EOFError:
             pass
 
-    result = [line.strip() for line in result]
-    result = [line for line in result if len(line) > 0]
     trace(result)
     return result
 
