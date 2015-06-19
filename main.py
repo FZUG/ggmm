@@ -41,6 +41,8 @@ THE SOFTWARE."""
 #  2. 仅保证 python3 能运行该程序
 
 #config
+URL_PREFIX="http://meetbot.fedoraproject.org/fedora-zh/"
+MEETING_NAME="FZUG Weekly Meeting"
 TO="chinese@lists.fedoraproject.org"
 CC=()
 SUBJECT="Fedora Chinese Meeting Minutes"
@@ -152,12 +154,13 @@ def fetch_data(url):
     trace(strs)
     return strs
 
-def make_eml(to, cc, subject, message, log, footnote):
+def make_eml(to, cc, subject, message, log, footnote, date):
     '''to: string
     cc: list/tuple of strings
     subject: string (without date)
     message: string
     log: list of strings
+    date: log date
     return: a string
     '''
     email.charset.add_charset('utf-8', None, None, 'utf-8')
@@ -167,9 +170,7 @@ def make_eml(to, cc, subject, message, log, footnote):
         cc = ','.join(cc)
         msg.add_header('Cc', cc)
 
-    now = str(datetime.date.today())
-    trace(now)
-    subject += " (" + now + ")"
+    subject += " (" + str(date) + ")"
     msg.add_header('Subject', subject)
 
     content = message + '\n' + '\n'.join(log) + '\n\n' + footnote + '\n'
@@ -181,25 +182,53 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='GGMM: GGMM Generates Minutes Mail.')
     parser.add_argument('--gui', dest='gui', action='store_true',
         default=False, help='enable GUI mode (default: disabled)')
+    parser.add_argument('-a', '--auto', dest='auto', action='store_true',
+        default=False, help='enable auto mode (default: disabled)')
 
     args = parser.parse_args()
 
-    user_input = get_user_input(args.gui)
-    #urls: description -> url
-    urls = dict()
-    for uinpt in user_input:
-        url = get_url(uinpt)
-        urls[ url[0] ] = url[1]
-    link_str = []
-    for key, value in urls.items():
-        link_str.append(key + ": " + value)
+    date = datetime.date.today()
+    if args.auto:
+        meeting_name_in_url = MEETING_NAME.lower().replace(' ', '_')
+        href_pattern_str = 'href="(' + meeting_name_in_url + '[\d.-]+\.txt)"'
+        href_pattern = re.compile(href_pattern_str)
+        while True:
+            trace("Trying date {}...".format(date))
+            found = True
+            try:
+                file_list_html = '\n'.join(fetch_data(URL_PREFIX + str(date)))
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    found = False
+                    pass
+            if found:
+                trace(file_list_html)
+                urls = re.findall(href_pattern, file_list_html)
+                if urls:
+                    trace("Match!")
+                    break
+            date = date - datetime.timedelta(days=1)
+        # In case there are multiple logs, assume the last one is what we want.
+        url = URL_PREFIX + str(date) + '/' + urls[-1]
+        print(url)
+        print("Fetching data from server......")
+        log = fetch_data(url)
+    else:
+        user_input = get_user_input(args.gui)
+        #urls: description -> url
+        urls = dict()
+        for uinpt in user_input:
+            url = get_url(uinpt)
+            urls[ url[0] ] = url[1]
+        link_str = []
+        for key, value in urls.items():
+            link_str.append(key + ": " + value)
 
+        print("Fetching data from server......")
+        log = fetch_data(urls['Minutes (text)'])
+        log = link_str + ["",""] + log
 
-    print("Fetching data from server......")
-    log = fetch_data(urls['Minutes (text)'])
-    log = link_str + ["",""] + log
-
-    eml = make_eml(TO, CC, SUBJECT, GREETING, log, FOOTNOTE)
+    eml = make_eml(TO, CC, SUBJECT, GREETING, log, FOOTNOTE, date)
     file = open('irc_meeting_log.eml', 'w')
     file.write(eml)
     file.close()
