@@ -41,7 +41,7 @@ THE SOFTWARE."""
 #  2. 仅保证 python3 能运行该程序
 
 #config
-URL_PREFIX="http://meetbot.fedoraproject.org/fedora-zh/"
+URL_PREFIX="http://meetbot-raw.fedoraproject.org/fedora-zh/"
 MEETING_NAME="FZUG Weekly Meeting"
 TO="chinese@lists.fedoraproject.org"
 CC=()
