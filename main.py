@@ -71,8 +71,11 @@ def trace(s):
         print(s)
 
 def get_user_input(gui=False):
-    '''获取用户的输入，未来可能支持 gui
-    返回一个 list，里面有三个不带换行符的字符串
+    '''获取用户的输入
+
+    :param gui: whether to use GUI interface or not (default: False)
+    :type gui: boolean
+    :return: 一个 list，里面有三个不带换行符的字符串
     '''
     result = []
     input_tip = "请输入结束会议时 bot 的三行会议纪要链接提示："
