@@ -22,6 +22,3 @@ uninstall:
 
 clean:
 	-@rm -rf $(PACKAGE) *~
-
-test: build
-	python3 $(PACKAGE) -a && test -s irc_meeting_log.eml
